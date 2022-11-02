@@ -59,8 +59,8 @@ const resetAction = () => store.dispatch({ type: 'RESET' });
 /**
  *
  */
-const unsubscribe = store.subscribe((actionType) => console.log(actionType, store.state));
-store.subscribe((actionType) => console.log(actionType, store.state));
+const unsubscribe = store.subscribe((actionType) => console.log(actionType, store.getState()));
+store.subscribe((actionType) => console.log(actionType, store.getState()));
 
 /**
  *
