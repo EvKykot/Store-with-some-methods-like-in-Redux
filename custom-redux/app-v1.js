@@ -71,5 +71,5 @@ store.subscribe((actionType) => console.log(actionType, store.state));
 incrementAction(5);
 unsubscribe();
 decrementAction(3);
-store.update({});
+store.update({ type: 'UPDATE' });
 resetAction();

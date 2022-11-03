@@ -20,7 +20,7 @@ const useCounterActions = () => useActions({
 
 const Counter = () => {
   const { count } = useCounterSelectors();
-  const { onReset, onIncrementCounter, onDecrementCounter  } = useCounterActions();
+  const { onReset, onIncrementCounter, onDecrementCounter } = useCounterActions();
 
   return (
     <div>
