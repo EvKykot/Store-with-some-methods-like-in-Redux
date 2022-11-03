@@ -1,42 +1,52 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
+
+import { selectCount } from "../../redux/counter/counter-selectors";
+import { incrementCounter, decrementCounter, resetCounter } from "../../redux/counter/counter-actions";
+
+import {useActions} from "../../hooks/use-actions";
+import {useSelectors} from "../../hooks/use-selectors";
 
 import styles from './counter.module.css';
-import {incrementCounter, decrementCounter} from "../../redux/counter/counter-actions";
-import counterStore from "../../redux/counter/counter-store";
 
-const useForceUpdate = () => {
-  const [, updateState] = useState();
-  return useCallback(() => updateState({}), []);
-}
+const useCounterSelectors = () => useSelectors({
+  count: selectCount,
+});
+
+const useCounterActions = () => useActions({
+  onReset: resetCounter,
+  onIncrementCounter: () => incrementCounter(1),
+  onDecrementCounter: () => decrementCounter(1),
+});
 
 const Counter = () => {
-  const state = counterStore.getState();
-  const forceUpdate = useForceUpdate();
-
-  useEffect(() => {
-    counterStore.subscribe((actionType) => {
-      console.log(actionType, counterStore.getState());
-      forceUpdate();
-    });
-  }, []);
+  const { count } = useCounterSelectors();
+  const { onReset, onIncrementCounter, onDecrementCounter  } = useCounterActions();
 
   return (
     <div>
       <div className={styles.row}>
         <button
           className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => decrementCounter(1)}
+          onClick={onDecrementCounter}
         >
           -
         </button>
-        <span className={styles.value}>{state.count}</span>
+        <span className={styles.value}>
+          {count}
+        </span>
         <button
           className={styles.button}
-          aria-label="Increment value"
-          onClick={() => incrementCounter(1)}
+          onClick={onIncrementCounter}
         >
           +
+        </button>
+      </div>
+      <div className={styles.row}>
+        <button
+          className={styles.button}
+          onClick={onReset}
+        >
+          Reset
         </button>
       </div>
     </div>
